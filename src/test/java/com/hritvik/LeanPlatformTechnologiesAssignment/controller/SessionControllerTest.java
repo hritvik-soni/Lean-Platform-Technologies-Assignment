@@ -119,28 +119,6 @@ public class SessionControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-//    @Test
-//    public void testBookRecurringSessionsWhenSessionsAreBookedThenReturnOk() throws Exception {
-//        // Arrange
-//        Long mentorId = 1L;
-//        LocalDateTime startDateTime = LocalDateTime.now().plusDays(1);
-//        String startDateTimeStr = startDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
-//        String recurrence = "weekly";
-//        int durationMonths = 3;
-//        String username = "user1";
-//        when(sessionService.bookRecurringSessions(eq(mentorId), any(LocalDateTime.class), eq(recurrence), eq(durationMonths), eq(username)))
-//                .thenReturn(new ResponseEntity<>("Recurring sessions booked successfully", HttpStatus.OK));
-//
-//        // Act & Assert
-//        mockMvc.perform(post("/api/sessions/book-recurring")
-//                .param("mentorId", mentorId.toString())
-//                .param("dateTime", startDateTimeStr)
-//                .param("recurrence", recurrence)
-//                .param("durationMonths", String.valueOf(durationMonths))
-//                .param("username", username))
-//                .andExpect(status().isOk());
-//    }
-
     @Test
     public void testBookRecurringSessions_Success() {
         // Arrange
