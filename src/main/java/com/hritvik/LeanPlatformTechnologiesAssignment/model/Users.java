@@ -1,9 +1,6 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -24,9 +21,14 @@ public class Users {
     @Email
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private Role role; // 'Client' or 'Consultant'
 
 
     public Users(String testUser) {
+    }
+
+    public Users(String consultant1, String password, Role role) {
     }
 }

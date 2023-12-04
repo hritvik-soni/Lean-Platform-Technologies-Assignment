@@ -4,7 +4,6 @@ import com.hritvik.LeanPlatformTechnologiesAssignment.model.Sessions;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IsessionRepo;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IuserRepo;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

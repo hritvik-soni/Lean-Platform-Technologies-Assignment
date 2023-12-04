@@ -26,9 +26,7 @@ public class UserController {
     @GetMapping("/consultants")
     public ResponseEntity<List<Users>> getAllConsultants(@RequestParam ("username")String username) {
         List<Users> consultants = userService.getAllConsultants(username);
-        if(consultants.isEmpty()){
-            return  new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+
         return new ResponseEntity<>(consultants, HttpStatus.OK);
     }
 }
