@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "6e8f9661-ed24-48b3-8265-ad4754fc0158",
+		"name": "Session-Management-APIs-Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27811054",
+		"_collection_link": "https://www.postman.com/lunar-module-architect-29363035/workspace/springboot/collection/27811054-6e8f9661-ed24-48b3-8265-ad4754fc0158?action=share&source=collection_link&creator=27811054"
+	},
+	"item": [
+		{
+			"name": "registerUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n  \"username\": \"user1\",\r\n  \"email\": \"user1@email.com\",\r\n  \"password\": \"password\",\r\n  \"role\": \"Client\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllConsultants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/users/consultants?username=user2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"consultants"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "user2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createSession",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/sessions/create?username=user1&mentorId=2&dateTime=2023-12-18T01:30:00.000-00:00",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sessions",
+						"create"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "user1"
+						},
+						{
+							"key": "mentorId",
+							"value": "2"
+						},
+						{
+							"key": "dateTime",
+							"value": "2023-12-18T01:30:00.000-00:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rescheduleSession",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/sessions/reschedule?sessionId=2&dateTime=2023-12-18T01:30:00.000-00:00&username=user1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sessions",
+						"reschedule"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "2"
+						},
+						{
+							"key": "dateTime",
+							"value": "2023-12-18T01:30:00.000-00:00"
+						},
+						{
+							"key": "username",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "book-recurringSession",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/sessions/book-recurring?mentorId=2&dateTime=2023-12-18T01:30:00.000-00:00&recurrence=weekly&duration=1&username=user1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sessions",
+						"book-recurring"
+					],
+					"query": [
+						{
+							"key": "mentorId",
+							"value": "2"
+						},
+						{
+							"key": "dateTime",
+							"value": "2023-12-18T01:30:00.000-00:00"
+						},
+						{
+							"key": "recurrence",
+							"value": "weekly"
+						},
+						{
+							"key": "duration",
+							"value": "1"
+						},
+						{
+							"key": "username",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelSession",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/sessions/cancel?sessionId=1&username=user1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"sessions",
+						"cancel"
+					],
+					"query": [
+						{
+							"key": "sessionId",
+							"value": "1"
+						},
+						{
+							"key": "username",
+							"value": "user1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
