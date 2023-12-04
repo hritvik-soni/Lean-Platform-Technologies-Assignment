@@ -90,6 +90,12 @@ public class SessionService {
     }
 
     public ResponseEntity<String> bookRecurringSessions(Long mentorId, LocalDateTime startDateTime, String recurrence, int durationMonths, String username) {
+
+        if(durationMonths<1 || durationMonths>3){
+            return new ResponseEntity<>("Cannot book recurring sessions for less than 1 month or more than 3 months.", HttpStatus.BAD_REQUEST);
+        }
+
+
         Optional<Users> optionalMentor = userRepo.findById(mentorId);
 
         if (optionalMentor.isPresent()) {

@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/consultants")
-    public ResponseEntity<List<Users>> getAllConsultants(@RequestParam String username) {
+    public ResponseEntity<List<Users>> getAllConsultants(@RequestParam ("username")String username) {
         List<Users> consultants = userService.getAllConsultants(username);
         if(consultants.isEmpty()){
             return  new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

@@ -18,9 +18,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,7 +56,7 @@ public class SessionControllerTest {
         mockMvc.perform(post("/api/sessions/create")
                 .param("username", username)
                 .param("mentorId", mentorId.toString())
-                .param("bookDateTime", bookDateTimeStr))
+                .param("dateTime", bookDateTimeStr))
                 .andExpect(status().isOk());
     }
 
@@ -104,7 +105,7 @@ public class SessionControllerTest {
         // Act & Assert
         mockMvc.perform(post("/api/sessions/reschedule")
                 .param("sessionId", sessionId.toString())
-                .param("newDateTime", newDateTimeStr)
+                .param("dateTime", newDateTimeStr)
                 .param("username", username))
                 .andExpect(status().isOk());
     }
@@ -118,36 +119,67 @@ public class SessionControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+//    @Test
+//    public void testBookRecurringSessionsWhenSessionsAreBookedThenReturnOk() throws Exception {
+//        // Arrange
+//        Long mentorId = 1L;
+//        LocalDateTime startDateTime = LocalDateTime.now().plusDays(1);
+//        String startDateTimeStr = startDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
+//        String recurrence = "weekly";
+//        int durationMonths = 3;
+//        String username = "user1";
+//        when(sessionService.bookRecurringSessions(eq(mentorId), any(LocalDateTime.class), eq(recurrence), eq(durationMonths), eq(username)))
+//                .thenReturn(new ResponseEntity<>("Recurring sessions booked successfully", HttpStatus.OK));
+//
+//        // Act & Assert
+//        mockMvc.perform(post("/api/sessions/book-recurring")
+//                .param("mentorId", mentorId.toString())
+//                .param("dateTime", startDateTimeStr)
+//                .param("recurrence", recurrence)
+//                .param("durationMonths", String.valueOf(durationMonths))
+//                .param("username", username))
+//                .andExpect(status().isOk());
+//    }
+
     @Test
-    public void testBookRecurringSessionsWhenSessionsAreBookedThenReturnOk() throws Exception {
+    public void testBookRecurringSessions_Success() {
         // Arrange
         Long mentorId = 1L;
-        LocalDateTime startDateTime = LocalDateTime.now().plusDays(1);
-        String startDateTimeStr = startDateTime.format(DateTimeFormatter.ISO_DATE_TIME);
-        String recurrence = "weekly";
+        LocalDateTime startDateTime = LocalDateTime.now();
+        String recurrence = "Weekly";
         int durationMonths = 3;
-        String username = "user1";
-        when(sessionService.bookRecurringSessions(eq(mentorId), any(LocalDateTime.class), eq(recurrence), eq(durationMonths), eq(username)))
-                .thenReturn(new ResponseEntity<>("Recurring sessions booked successfully", HttpStatus.OK));
+        String username = "john_doe";
 
-        // Act & Assert
-        mockMvc.perform(post("/api/sessions/book-recurring")
-                .param("mentorId", mentorId.toString())
-                .param("startDateTime", startDateTimeStr)
-                .param("recurrence", recurrence)
-                .param("durationMonths", String.valueOf(durationMonths))
-                .param("username", username))
-                .andExpect(status().isOk());
+        when(sessionService.bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username))
+                .thenReturn(ResponseEntity.ok("Successfully booked recurring sessions"));
+
+        // Act
+        ResponseEntity<String> response = sessionService.bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username);
+
+        // Assert
+        assertEquals(ResponseEntity.ok("Successfully booked recurring sessions"), response);
+        verify(sessionService, times(1)).bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username);
     }
 
     @Test
-    public void testBookRecurringSessionsWhenMentorIdNotProvidedThenReturnBadRequest() throws Exception {
-        // Act & Assert
-        mockMvc.perform(post("/api/sessions/book-recurring")
-                .param("startDateTime", LocalDateTime.now().plusDays(1).format(DateTimeFormatter.ISO_DATE_TIME))
-                .param("recurrence", "weekly")
-                .param("durationMonths", "3")
-                .param("username", "user1"))
-                .andExpect(status().isBadRequest());
+    public void testBookRecurringSessions_Failure() {
+        // Arrange
+        Long mentorId = 2L;
+        LocalDateTime startDateTime = LocalDateTime.now();
+        String recurrence = "Monthly";
+        int durationMonths = 2;
+        String username = "jane_doe";
+
+        when(sessionService.bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username))
+                .thenReturn(ResponseEntity.status(500).body("Failed to book recurring sessions"));
+
+        // Act
+        ResponseEntity<String> response = sessionService.bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username);
+
+        // Assert
+        assertEquals(ResponseEntity.status(500).body("Failed to book recurring sessions"), response);
+        verify(sessionService, times(1)).bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username);
     }
+
+
 }

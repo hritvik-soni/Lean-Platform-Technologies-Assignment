@@ -17,30 +17,32 @@ public class SessionController {
     private SessionService sessionService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> bookSession(@RequestParam String username, @RequestParam Long mentorId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime bookDateTime) {
+    public ResponseEntity<String> bookSession(@RequestParam ("username") String username,
+                                              @RequestParam("mentorId") Long mentorId,
+                                              @RequestParam ("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime bookDateTime) {
         return sessionService.bookSession(username,mentorId,bookDateTime);
     }
 
     @PostMapping("/cancel")
-    public ResponseEntity<String> cancelSession(@RequestParam Long sessionId,
-                                                @RequestParam String username) {
+    public ResponseEntity<String> cancelSession(@RequestParam("sessionId") Long sessionId,
+                                                @RequestParam("username") String username) {
         return sessionService.cancelSession(sessionId, username);
     }
 
 
     @PostMapping("/reschedule")
-    public ResponseEntity<String> rescheduleSession(@RequestParam Long sessionId,
-                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime newDateTime,
-                                                    @RequestParam String username) {
+    public ResponseEntity<String> rescheduleSession(@RequestParam("sessionId") Long sessionId,
+                                                    @RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime newDateTime,
+                                                    @RequestParam("username") String username) {
         return sessionService.rescheduleSession(sessionId, newDateTime, username);
     }
 
     @PostMapping("/book-recurring")
-    public ResponseEntity<String> bookRecurringSessions(@RequestParam Long mentorId,
-                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
-                                                        @RequestParam String recurrence,
-                                                        @RequestParam int durationMonths,
-                                                        @RequestParam String username) {
+    public ResponseEntity<String> bookRecurringSessions(@RequestParam("mentorId") Long mentorId,
+                                                        @RequestParam("dateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+                                                        @RequestParam ("recurrence")String recurrence,
+                                                        @RequestParam ("duration")int durationMonths,
+                                                        @RequestParam ("username")String username) {
         return sessionService.bookRecurringSessions(mentorId, startDateTime, recurrence, durationMonths, username);
     }
 }
