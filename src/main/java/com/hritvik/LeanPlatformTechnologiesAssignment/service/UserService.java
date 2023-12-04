@@ -24,24 +24,28 @@ public class UserService {
             return new ResponseEntity<>("Username already exists", HttpStatus.BAD_REQUEST);
         }
 
-        // Set a default role if not provided
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("Client");
-        }
 
         // Encrypt the password before saving (you might want to use a more secure method)
 
         user.setPassword(PasswordEncrypter.encryptPassword(user.getPassword()));
+
+        // saving user details to database
 
         userRepository.save(user);
         return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
     }
 
     public List<Users> getAllConsultants(String username) {
+        //searching for username in DB
 
         Optional<Users> user = userRepository.findByUsername(username);
+        if(user.isPresent()){
+            return userRepository.findByRole("Consultant");
+        }
 
-        return userRepository.findByRole("Consultant");
+        return null;
+
+
 
 
     }

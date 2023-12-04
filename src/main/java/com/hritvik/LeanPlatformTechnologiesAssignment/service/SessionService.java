@@ -4,6 +4,7 @@ import com.hritvik.LeanPlatformTechnologiesAssignment.model.Sessions;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IsessionRepo;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IuserRepo;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -97,13 +99,21 @@ public class SessionService {
 
 
         Optional<Users> optionalMentor = userRepo.findById(mentorId);
+        Optional<Users> user = userRepo.findByUsername(username);
 
         if (optionalMentor.isPresent()) {
             Users mentor = optionalMentor.get();
+            if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
+                return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
+            }
+            if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
+                return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
+            }
+
 
 //             Check if the user requesting the booking is a client
-            if (mentor.getRole().equalsIgnoreCase("Consultant")) {
-                return new ResponseEntity<>("Cannot book recurring sessions with a consultant.", HttpStatus.BAD_REQUEST);
+            if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
+                return new ResponseEntity<>("Cannot book recurring sessions with a Client.", HttpStatus.BAD_REQUEST);
             }
 
             LocalDateTime currentDateTime = LocalDateTime.now();
@@ -118,6 +128,7 @@ public class SessionService {
             if (weeks >= 0) {
                 // Book the initial session
                 Sessions session = createSession(username, mentor, bookingDateTime);
+
                 sessionRepository.save(session);
 
                 // Book additional sessions based on the recurrence and duration
@@ -156,13 +167,21 @@ public class SessionService {
 
     public ResponseEntity<String> bookSession(String username, Long mentorId, LocalDateTime bookDateTime) {
         Optional<Users> optionalMentor = userRepo.findById(mentorId);
+        Optional<Users> user = userRepo.findByUsername(username);
 
         if (optionalMentor.isPresent()) {
             Users mentor = optionalMentor.get();
 
+            if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
+                return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
+            }
+            if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
+                return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
+            }
+
 //             Check if the user requesting the booking is a client
-            if (mentor.getRole().equalsIgnoreCase("Consultant")) {
-                return new ResponseEntity<>("Cannot book recurring sessions with a consultant.", HttpStatus.BAD_REQUEST);
+            if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
+                return new ResponseEntity<>("Cannot book recurring sessions with a client.", HttpStatus.BAD_REQUEST);
             }
 
             LocalDateTime currentDateTime = LocalDateTime.now();

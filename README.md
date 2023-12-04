@@ -32,7 +32,7 @@ Users can reschedule a booked session with a mentor, provided that the time diff
 
 Users can book sessions with a mentor for recurring intervals based on user-specified preferences.
 
-- **Endpoint:** `/api/sessions/bookRecurring`
+- **Endpoint:** `/api/sessions/book-recurring`
 - **Method:** `POST`
 - **Parameters:**
   - `userId`: ID of the user booking recurring sessions.

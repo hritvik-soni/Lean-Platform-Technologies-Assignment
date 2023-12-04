@@ -1,6 +1,5 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.service.UserService;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
 
