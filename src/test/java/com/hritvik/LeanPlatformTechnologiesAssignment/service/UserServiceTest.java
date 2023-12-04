@@ -1,5 +1,6 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.service;
 
+import com.hritvik.LeanPlatformTechnologiesAssignment.model.Role;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IuserRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,7 +75,7 @@ public class UserServiceTest {
     void testGetAllConsultantsThenSuccess() {
         // Arrange
         Users consultant = new Users();
-        consultant.setRole("Consultant");
+        consultant.setRole(Role.Consultant);
         List<Users> consultants = List.of(consultant);
         when(userRepository.findByRole("Consultant")).thenReturn(consultants);
 

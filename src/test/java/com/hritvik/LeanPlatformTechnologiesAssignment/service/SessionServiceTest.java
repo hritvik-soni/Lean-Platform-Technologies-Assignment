@@ -1,5 +1,6 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.service;
 
+import com.hritvik.LeanPlatformTechnologiesAssignment.model.Role;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Sessions;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IsessionRepo;
@@ -142,7 +143,7 @@ public class SessionServiceTest {
         String username = "user1";
         Users mentor = new Users();
         mentor.setId(mentorId);
-        mentor.setRole("Mentor");
+        mentor.setRole(Role.valueOf("Consultant"));
 
         when(userRepo.findById(mentorId)).thenReturn(Optional.of(mentor));
         when(sessionRepository.save(any(Sessions.class))).thenReturn(new Sessions());
@@ -163,7 +164,7 @@ public class SessionServiceTest {
         String username = "user1";
         Users mentor = new Users();
         mentor.setId(mentorId);
-        mentor.setRole("Mentor");
+        mentor.setRole(Role.valueOf("Consultant"));
 
         when(userRepo.findById(mentorId)).thenReturn(Optional.of(mentor));
         when(sessionRepository.save(any(Sessions.class))).thenReturn(new Sessions());
