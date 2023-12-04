@@ -103,9 +103,12 @@ public class SessionService {
 
         if (optionalMentor.isPresent()) {
             Users mentor = optionalMentor.get();
+
+//           check if the user and mentor is same
             if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
                 return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
             }
+//            Check if the user is a consultant
             if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
                 return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
             }
@@ -113,7 +116,7 @@ public class SessionService {
 
 //             Check if the user requesting the booking is a client
             if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
-                return new ResponseEntity<>("Cannot book recurring sessions with a Client.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Cannot book recurring sessions Invalid Mentor Id.", HttpStatus.BAD_REQUEST);
             }
 
             LocalDateTime currentDateTime = LocalDateTime.now();
@@ -156,6 +159,8 @@ public class SessionService {
     }
 
     private Sessions createSession(String username, Users mentor, LocalDateTime bookingDateTime) {
+//        creating session
+
         Sessions session= new Sessions();
         session.setUser(userRepo.findByUsername(username).orElse(null));
         session.setMentor(mentor);
@@ -172,16 +177,18 @@ public class SessionService {
         if (optionalMentor.isPresent()) {
             Users mentor = optionalMentor.get();
 
+//            check if the user and mentor is same
             if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
                 return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
             }
+//            Check if the user is a consultant
             if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
                 return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
             }
 
 //             Check if the user requesting the booking is a client
             if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
-                return new ResponseEntity<>("Cannot book recurring sessions with a client.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Cannot book recurring sessions Invalid Mentor Id.", HttpStatus.BAD_REQUEST);
             }
 
             LocalDateTime currentDateTime = LocalDateTime.now();

@@ -1,6 +1,7 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.service;
 
 
+import com.hritvik.LeanPlatformTechnologiesAssignment.model.Role;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import com.hritvik.LeanPlatformTechnologiesAssignment.respository.IuserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class UserService {
 
         Optional<Users> user = userRepository.findByUsername(username);
         if(user.isPresent()){
-            return userRepository.findByRole("Consultant");
+            return userRepository.findByRole(Role.valueOf("Consultant"));
         }
 
         return null;

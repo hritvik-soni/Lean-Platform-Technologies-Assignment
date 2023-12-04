@@ -1,5 +1,6 @@
 package com.hritvik.LeanPlatformTechnologiesAssignment.respository;
 
+import com.hritvik.LeanPlatformTechnologiesAssignment.model.Role;
 import com.hritvik.LeanPlatformTechnologiesAssignment.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,5 +13,5 @@ public interface IuserRepo extends JpaRepository<Users,Long> {
 
     Optional<Users> findByUsername(String username);
 
-    List<Users> findByRole(String consultant);
+    List<Users> findByRole(Role role);
 }
