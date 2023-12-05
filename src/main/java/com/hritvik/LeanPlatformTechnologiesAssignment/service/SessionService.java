@@ -90,72 +90,6 @@ public class SessionService {
         }
     }
 
-//    public ResponseEntity<String> bookRecurringSessions(Long mentorId, LocalDateTime startDateTime, String recurrence, int durationMonths, String username) {
-//
-////        if(durationMonths<1 || durationMonths>3){
-////            return new ResponseEntity<>("Cannot book recurring sessions for less than 1 month or more than 3 months.", HttpStatus.BAD_REQUEST);
-////        }
-//
-//
-//        Optional<Users> optionalMentor = userRepo.findById(mentorId);
-//        Optional<Users> user = userRepo.findByUsername(username);
-//
-//        if (optionalMentor.isPresent()) {
-//            Users mentor = optionalMentor.get();
-//
-////           check if the user and mentor is same
-//            if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
-//                return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
-//            }
-////            Check if the user is a consultant
-//            if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
-//                return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
-//            }
-//
-//
-////             Check if the user requesting the booking is a client
-//            if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
-//                return new ResponseEntity<>("Cannot book recurring sessions Invalid Mentor Id.", HttpStatus.BAD_REQUEST);
-//            }
-//
-//            LocalDateTime currentDateTime = LocalDateTime.now();
-//
-//            // Initialize the booking date
-//            LocalDateTime bookingDateTime = startDateTime;
-//
-//            // Calculate the duration in weeks
-//            long weeks = Duration.between(currentDateTime, bookingDateTime).toDays() / 7;
-//
-//            // Check if the booking date is in the future
-//            if (weeks >= 0) {
-//                // Book the initial session
-//                Sessions session = createSession(username, mentor, bookingDateTime);
-//
-//                sessionRepository.save(session);
-//
-//                // Book additional sessions based on the recurrence and duration
-//                for (int i = 1; i < durationMonths * 4; i++) {  // Assuming 4 weeks in a month
-//                    if (recurrence.equalsIgnoreCase("weekly")) {
-//                        bookingDateTime = bookingDateTime.plusWeeks(1);
-//                    } else if (recurrence.equalsIgnoreCase("bi-weekly")) {
-//                        bookingDateTime = bookingDateTime.plusDays(3);
-//                    }
-//
-//                    // Check if the booking date is still within the specified duration
-//                    if (Duration.between(currentDateTime, bookingDateTime).toDays() / 7 < durationMonths * 4L) {
-//                        session = createSession(username, mentor, bookingDateTime);
-//                        sessionRepository.save(session);
-//                    }
-//                }
-//
-//                return new ResponseEntity<>("Recurring sessions booked successfully", HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>("Cannot book recurring sessions in the past.", HttpStatus.BAD_REQUEST);
-//            }
-//        } else {
-//            return new ResponseEntity<>("Mentor not found.", HttpStatus.NOT_FOUND);
-//        }
-//    }
 
     public ResponseEntity<String> bookRecurringSessions(Long mentorId, LocalDateTime startDateTime, String recurrence, int durationMonths, String username) {
 
@@ -243,16 +177,16 @@ public class SessionService {
 
 //            check if the user and mentor is same
             if(user.isPresent() && Objects.equals(user.get().getId(), mentorId)){
-                return  new ResponseEntity<>("Cannot book recurring sessions Invalid Id", HttpStatus.BAD_REQUEST);
+                return  new ResponseEntity<>("Cannot book  sessions Invalid Id", HttpStatus.BAD_REQUEST);
             }
 //            Check if the user is a consultant
             if(user.isPresent() && user.get().getRole().toString().equals("Consultant")){
-                return  new ResponseEntity<>("Cannot book recurring sessions for Consultant", HttpStatus.BAD_REQUEST);
+                return  new ResponseEntity<>("Cannot book sessions for Consultant", HttpStatus.BAD_REQUEST);
             }
 
 //             Check if the user requesting the booking is a client
             if (mentor.getRole().toString().equalsIgnoreCase("Client")) {
-                return new ResponseEntity<>("Cannot book recurring sessions Invalid Mentor Id.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Cannot book sessions Invalid Mentor Id.", HttpStatus.BAD_REQUEST);
             }
 
             LocalDateTime currentDateTime = LocalDateTime.now();
@@ -265,9 +199,9 @@ public class SessionService {
                 // Book the initial session
                 Sessions session = createSession(username, mentor, bookDateTime);
                 sessionRepository.save(session);
-                return new ResponseEntity<>("Recurring sessions booked successfully", HttpStatus.OK);
+                return new ResponseEntity<>("Sessions booked successfully", HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Cannot book recurring sessions in the past.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Cannot book sessions in the past.", HttpStatus.BAD_REQUEST);
             }
         } else {
             return new ResponseEntity<>("Mentor not found.", HttpStatus.NOT_FOUND);
